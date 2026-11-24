@@ -51,3 +51,13 @@ node drums/tests/drums.test.mjs
 3. デプロイ完了後、サイトのトップページで「ドラムマシンへ」を選びます。ドラムマシンのパスは `/drums/` です。
 
 [GitHub Pages の公開元設定](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
+
+## ホーム画面に追加
+
+`/drums/` と `/songwriter/` はそれぞれ独立したアプリとしてインストールできます。オンラインで対象ページを開き、Android の Chrome ではメニューから「アプリをインストール」または「ホーム画面に追加」を選びます。iPhone・iPad の Safari では共有メニューから「ホーム画面に追加」を選び、「Webアプリとして開く」が表示される場合はオンにします。
+
+初回はオンラインでページを開き、Service Worker のインストールとキャッシュの作成が終わるまで待ちます。以降はオフラインでも各アプリを開けます。
+
+### キャッシュを更新する
+
+各アプリの HTML・CSS・JavaScript・アイコンなど、`sw.js` の `APP_SHELL` にあるファイルを変更する際は、対象アプリの `VERSION` を上げて同時に公開します。ファイルを追加・削除した場合は `APP_SHELL` も更新します。新版の初回取得が終わり、旧版のタブとホーム画面アプリをすべて閉じると、次回の起動から新版が使われます。切り替え時は対象アプリの旧キャッシュだけを削除します。
