@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ブラウザでリズムを作り、MIDI・WAVで書き出せるドラムマシン。">
+  <title>ドラムマシン</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <main>
+    <header class="masthead">
+      <h1>ドラムマシン</h1>
+      <a href="../">トップページ</a>
+    </header>
+    <section class="panel transport" aria-label="再生と全体設定">
+      <div class="playback">
+        <button id="play" class="primary">再生</button>
+        <button id="stop" disabled>停止</button>
+      </div>
+      <div id="globals" class="globals"></div>
+    </section>
+
+    <section class="panel" aria-labelledby="sequence-title">
+      <div class="section-head">
+        <h2 id="sequence-title">シーケンサー</h2>
+        <div class="actions">
+          <button id="accent-mode" aria-pressed="false">アクセント編集</button>
+          <button id="clear">全消去</button>
+        </div>
+      </div>
+      <div class="sequence-info">
+        <p id="sequence-help">タップで発音、長押しでアクセント。キーボードでは Shift + Enter でも設定できます。</p>
+        <div class="legend"><span class="normal">通常</span><span class="accent">アクセント</span></div>
+      </div>
+      <div id="sequence" aria-describedby="sequence-help"></div>
+    </section>
+
+    <section class="panel" aria-labelledby="sound-title">
+      <h2 id="sound-title">トラック設定</h2>
+      <div id="tracks" class="tracks"></div>
+    </section>
+
+    <section class="panel" aria-labelledby="file-title">
+      <div class="section-head">
+        <h2 id="file-title">ファイル</h2>
+      </div>
+      <div class="actions files">
+        <button id="midi">MIDI を保存</button>
+        <div class="actions wav">
+          <select id="wav-mode" aria-label="WAV 書き出し方式">
+            <option value="loop">Loop</option>
+            <option value="tail">With Tail</option>
+          </select>
+          <button id="wav">WAV を保存</button>
+        </div>
+        <button id="json">JSON を保存</button>
+        <button id="import">JSON を読み込む</button>
+        <input id="import-file" type="file" accept=".json,application/json" hidden>
+      </div>
+      <p id="status" role="status"></p>
+    </section>
+  </main>
+</body>
+</html>
