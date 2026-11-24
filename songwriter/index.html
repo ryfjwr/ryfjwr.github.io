@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="キック・スネア・ハイハットでリズムを作る16ステップのドラムマシン。">
+<title>ソングライター純</title>
+<link rel="stylesheet" href="style.css">
+<script src="app.js" defer></script>
+</head>
+<body>
+<main>
+  <header>
+    <h1>ソングライター純</h1>
+    <p>16ステップのマスを押して、リズムを作ろう。</p>
+  </header>
+  <section class="machine" aria-label="ドラムマシン">
+    <div class="transport">
+      <button id="play" type="button"><span aria-hidden="true">▶</span> スタート</button>
+      <button id="stop" type="button" disabled><span aria-hidden="true">■</span> ストップ</button>
+      <p id="status" role="status">停止中</p>
+    </div>
+    <div class="timing">
+      <div class="control">
+        <label for="bpm">BPM</label>
+        <output id="bpm-value" for="bpm" aria-live="off">120</output>
+        <input id="bpm" type="range" min="40" max="240" value="120">
+      </div>
+      <div class="control">
+        <label for="shuffle">シャッフル</label>
+        <output id="shuffle-value" for="shuffle" aria-live="off">0%</output>
+        <input id="shuffle" type="range" min="0" max="100" value="0">
+      </div>
+      <div class="control drum-volume">
+        <label for="drum-volume">ドラム音量</label>
+        <output id="drum-volume-value" for="drum-volume" aria-live="off">80%</output>
+        <input id="drum-volume" type="range" min="0" max="100" value="80">
+      </div>
+    </div>
+    <div id="sequencer" aria-label="ステップ入力"></div>
+  </section>
+  <section class="machine chords" aria-labelledby="chord-heading">
+    <div class="chord-header">
+      <h2 id="chord-heading">コード</h2>
+      <div class="key-picker" role="group" aria-label="キー選択">
+        <button id="previous-key" type="button" aria-label="半音下のキー">←</button>
+        <output id="key-name" aria-live="polite">C</output>
+        <button id="next-key" type="button" aria-label="半音上のキー">→</button>
+      </div>
+    </div>
+    <div class="chord-buttons" id="chord-buttons" role="group" aria-label="ダイアトニック"></div>
+    <div class="chord-group">
+      <h3 id="secondary-heading">セカンダリードミナント</h3>
+      <div class="chord-buttons" id="secondary-chords" role="group" aria-labelledby="secondary-heading"></div>
+    </div>
+    <div class="chord-group">
+      <h3 id="borrowed-heading">同主短調からの借用</h3>
+      <div class="chord-buttons" id="borrowed-chords" role="group" aria-labelledby="borrowed-heading"></div>
+    </div>
+    <div class="chord-group">
+      <h3 id="altered-heading">ディミニッシュ / オーグメント</h3>
+      <div class="chord-buttons" id="altered-chords" role="group" aria-labelledby="altered-heading"></div>
+    </div>
+    <p id="chord-status" role="status" hidden></p>
+  </section>
+</main>
+</body>
+</html>

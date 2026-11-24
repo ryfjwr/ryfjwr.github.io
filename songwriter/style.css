@@ -1,0 +1,80 @@
+:root {
+  color-scheme: dark;
+  font-family: system-ui, sans-serif;
+  color: #f2f3f5;
+  background: #111317;
+}
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 0; }
+main { max-width: 72rem; margin: auto; padding: clamp(2rem, 9vh, 7rem) clamp(.85rem, 4vw, 3rem); }
+h1 { font-size: clamp(2rem, 6vw, 4rem); line-height: 1.1; margin: 0; letter-spacing: -.055em; }
+header p { color: #aeb5c2; margin: 1rem 0 2rem; }
+.machine {
+  border: 1px solid #444a54;
+  border-radius: 1.1rem;
+  background: #20242b;
+  box-shadow: 0 1rem 3rem #0005;
+}
+.transport {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .65rem;
+  padding: clamp(.85rem, 2.5vw, 1.6rem);
+  border-bottom: 1px solid #444a54;
+}
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border: 1px solid #515864;
+  border-radius: .5rem;
+  background: #303640;
+}
+button:focus-visible { outline: 2px solid white; outline-offset: 3px; }
+button:disabled { opacity: .5; cursor: default; }
+.transport button { padding: .65rem .85rem; font-weight: 700; }
+#play { background: #d8fa83; color: #1c2510; border-color: #d8fa83; }
+#status { margin: 0 0 0 auto; font-size: .875rem; color: #d0d5dd; }
+.timing {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(.8rem, 3vw, 2rem);
+  padding: clamp(.85rem, 2.5vw, 1.6rem);
+  border-bottom: 1px solid #444a54;
+}
+.control { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: .25rem .4rem; font-size: .875rem; }
+.control output { color: #d8fa83; font-variant-numeric: tabular-nums; }
+.control input { grid-column: 1 / -1; width: 100%; margin: 0; min-height: 1.75rem; accent-color: #d8fa83; }
+.control input:focus-visible { outline: 2px solid white; outline-offset: 3px; }
+.chords { margin-top: 1.25rem; padding: clamp(.85rem, 2.5vw, 1.6rem); }
+.chord-header, .key-picker { display: flex; align-items: center; gap: .6rem; }
+.chord-header { justify-content: space-between; margin-bottom: 1rem; }
+.chord-header h2 { font-size: 1.25rem; margin: 0; }
+.key-picker button { min-width: 2.75rem; min-height: 2.75rem; }
+#key-name { min-width: 2.4ch; text-align: center; font-weight: 700; color: #d8fa83; }
+.chord-group { margin-top: 1rem; padding-top: .85rem; border-top: 1px solid #444a54; }
+.chord-group h3 { margin: 0 0 .5rem; color: #c7ced9; font-size: .875rem; }
+.chord-buttons { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: .5rem; }
+.chord-buttons button { min-height: 3rem; padding: .35rem .15rem; font-size: .875rem; font-weight: 700; touch-action: manipulation; }
+.chord-buttons button span { display: inline-block; }
+.chord-degree { font-size: .75rem; font-weight: 500; }
+.key-picker button:hover, .chord-buttons button:hover { border-color: #d8fa83; }
+.chord-buttons button:active { background: #d8fa83; color: #1c2510; }
+@media (max-width: 600px) {
+  .timing { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .drum-volume { grid-column: 1 / -1; }
+  .chord-buttons { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+#sequencer { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .85rem; padding: clamp(.85rem, 2.5vw, 1.6rem); }
+.beat { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .35rem; background: #181b20; padding: .65rem; border-radius: .6rem; }
+.track { display: grid; grid-template-columns: subgrid; grid-column: 1 / -1; }
+.track-name { grid-column: 1 / -1; font-size: .875rem; color: #c7ced9; margin-top: .4rem; }
+.count { text-align: center; font: .875rem ui-monospace, monospace; color: #aeb5c2; padding: .25rem 0; }
+.count.current { color: #d8fa83; font-weight: bold; }
+.step { min-width: 0; height: clamp(2.25rem, 5vw, 3.5rem); padding: 0; position: relative; }
+.step:hover { filter: brightness(1.18); }
+.step[aria-pressed="true"] { background: var(--pad); border-color: var(--pad); }
+.step.current::after { content: ""; position: absolute; inset: .19rem; border: 2px solid white; border-radius: .3rem; }
+@media (max-width: 760px) { #sequencer { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 370px) { .beat { padding: .45rem; } #sequencer { gap: .5rem; } }
