@@ -32,13 +32,17 @@
       <div class="section-head">
         <h2 id="sequence-title">シーケンサー</h2>
         <div class="actions">
-          <button id="accent-mode" aria-pressed="false">アクセント編集</button>
+          <div id="step-modes" class="actions" role="group" aria-label="ステップ編集モード">
+            <button data-step-mode="1" aria-pressed="true">通常</button>
+            <button data-step-mode="2" aria-pressed="false">アクセント</button>
+            <button data-step-mode="3" aria-pressed="false">ゴースト</button>
+          </div>
           <button id="clear">全消去</button>
         </div>
       </div>
       <div class="sequence-info">
-        <p id="sequence-help">タップで発音、長押しでアクセント。キーボードでは Shift + Enter でも設定できます。</p>
-        <div class="legend"><span class="normal">通常</span><span class="accent">アクセント</span></div>
+        <p id="sequence-help">編集モードを選んでステップをタップ。通常モードでは長押しや Shift + Enter でアクセントを設定できます。</p>
+        <div class="legend"><span class="normal">通常</span><span class="accent">アクセント</span><span class="ghost">ゴースト</span></div>
       </div>
       <div id="sequence" aria-describedby="sequence-help"></div>
     </section>

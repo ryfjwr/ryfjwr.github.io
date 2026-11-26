@@ -60,13 +60,13 @@ function control(name, value, config, change) {
 function statusLabel(cell, value) {
   cell.dataset.value = value
   cell.setAttribute('aria-pressed', String(value !== 0))
-  cell.setAttribute('aria-label', cell.dataset.label + '、' + ['オフ', '通常', 'アクセント'][value])
+  cell.setAttribute('aria-label', cell.dataset.label + '、' + ['オフ', '通常', 'アクセント', 'ゴースト'][value])
 }
 
 export function createUI(getState, actions) {
   const sequence = byId('sequence')
-  const mode = byId('accent-mode')
-  let accentMode = false
+  const modeButtons = byId('step-modes').querySelectorAll('button')
+  let mode = 1
   let cells = []
   let active = -1
   let press
@@ -76,10 +76,13 @@ export function createUI(getState, actions) {
     statusLabel(cells[step][track], getState().tracks[track].steps[step])
   }
 
-  function setStep(cell, accent) {
+  function setStep(cell, mode) {
     const { track, step } = cell.dataset
     const pattern = getState().tracks[track].steps
-    pattern[step] = accent ? (pattern[step] === 2 ? 1 : 2) : (pattern[step] ? 0 : 1)
+    const value = pattern[step]
+    if (mode === 1) pattern[step] = value ? 0 : 1
+    else if (mode === 2) pattern[step] = value === 2 ? 1 : 2
+    else pattern[step] = value === 3 ? 0 : 3
     paint(track, step)
     actions.changed()
   }
@@ -94,11 +97,12 @@ export function createUI(getState, actions) {
     if (!cell || event.button !== 0 || !event.isPrimary) return
     clearPress()
     heldCell = undefined
+    if (mode !== 1) return
     press = {
       id: event.pointerId, x: event.clientX, y: event.clientY,
       timer: setTimeout(() => {
         heldCell = cell
-        setStep(cell, true)
+        setStep(cell, 2)
       }, 480)
     }
   })
@@ -122,20 +126,23 @@ export function createUI(getState, actions) {
       heldCell = undefined
       return
     }
-    setStep(cell, accentMode || event.shiftKey)
+    setStep(cell, mode === 1 && event.shiftKey ? 2 : mode)
   })
   sequence.addEventListener('keydown', event => {
     const cell = event.target.closest('.step')
     if (!cell) return
-    if (event.shiftKey && (event.key === 'Enter' || event.key === ' ')) {
+    if (mode === 1 && event.shiftKey && (event.key === 'Enter' || event.key === ' ')) {
       event.preventDefault()
-      if (!event.repeat) setStep(cell, true)
+      if (!event.repeat) setStep(cell, 2)
     }
   })
-  mode.addEventListener('click', () => {
-    accentMode = !accentMode
-    mode.setAttribute('aria-pressed', String(accentMode))
-  })
+  for (const button of modeButtons) {
+    button.addEventListener('click', () => {
+      clearPress()
+      mode = Number(button.dataset.stepMode)
+      for (const option of modeButtons) option.setAttribute('aria-pressed', String(option === button))
+    })
+  }
 
   function renderGrid() {
     clearPress()

@@ -44,6 +44,19 @@ test('event velocities, mute and solo', () => {
   assert.deepEqual(patternEvents(state)[1].hits, [{ index: 0, velocity: 80 }])
 })
 
+test('ghost notes use velocity 40 and survive JSON round-trips', () => {
+  const state = defaultState()
+  state.tracks[1].steps[3] = 3
+  assert.deepEqual(parseState(JSON.stringify(state)), state)
+  assert.deepEqual(patternEvents(state)[3].hits, [{ index: 1, velocity: 40 }])
+  assert.ok(readMidi(encodeMidi(state)).some(
+    ([tick, status, note, velocity]) => tick === 360 && status === 153 && note === 38 && velocity === 40
+  ))
+  const previous = parseState('{"version":1,"tracks":[{"steps":[0,1,2]}]}')
+  assert.equal(previous.version, state.version)
+  assert.deepEqual(previous.tracks[0].steps.slice(0, 3), [0, 1, 2])
+})
+
 function readMidi(bytes) {
   const view = new DataView(bytes.buffer)
   assert.equal(Buffer.from(bytes.subarray(0, 4)).toString(), 'MThd')

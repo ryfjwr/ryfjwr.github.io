@@ -1,5 +1,5 @@
 // Bump this version whenever any listed file changes.
-const VERSION = 1
+const VERSION = 2
 const CACHE_PREFIX = `ryfjwr-pwa:${self.registration.scope}:`
 const CACHE_NAME = CACHE_PREFIX + VERSION
 const APP_SHELL = [

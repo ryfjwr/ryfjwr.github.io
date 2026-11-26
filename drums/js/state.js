@@ -1,4 +1,4 @@
-export const VERSION = 1
+export const VERSION = 2
 export const METERS = [3, 4, 5, 7]
 export const TRACKS = [
   { id: 'kick', name: 'Kick', note: 36, min: 30, max: 1000, decay: 250, level: 90 },
@@ -27,7 +27,7 @@ function bounded(value, min, max, fallback, round = Math.round) {
 
 export function normalizeState(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input) ||
-      (input.version !== undefined && input.version !== VERSION) || !Array.isArray(input.tracks)) {
+      (input.version !== undefined && ![1, VERSION].includes(input.version)) || !Array.isArray(input.tracks)) {
     throw new Error('対応するドラムマシンの設定ファイルではありません。')
   }
   const state = defaultState()
@@ -46,7 +46,7 @@ export function normalizeState(input) {
     track.mute = saved.mute === true
     track.solo = saved.solo === true
     if (Array.isArray(saved.steps)) {
-      track.steps = track.steps.map((_, i) => [1, 2].includes(saved.steps[i]) ? saved.steps[i] : 0)
+      track.steps = track.steps.map((_, i) => [1, 2, 3].includes(saved.steps[i]) ? saved.steps[i] : 0)
     }
   })
   return state

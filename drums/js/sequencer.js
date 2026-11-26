@@ -15,7 +15,8 @@ export function stepHits(state, step) {
   state.tracks.forEach((track, index) => {
     const value = track.steps[step]
     if (value && !track.mute && (!solo || track.solo)) {
-      hits.push({ index, velocity: value === 2 ? state.accent : 80 })
+      const velocity = [0, 80, state.accent, 40][value]
+      hits.push({ index, velocity })
     }
   })
   // Open is triggered first so closed also chokes an open hit on the same step.
